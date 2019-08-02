@@ -1,6 +1,7 @@
 package com.hutu.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hutu.browser.suppot.SimpleResponse;
 import com.hutu.core.properties.LoginType;
 import com.hutu.core.properties.SecurityProperties;
 import org.apache.http.HttpStatus;
@@ -35,9 +36,10 @@ public class HutuAuthenticationFailHandler extends SimpleUrlAuthenticationFailur
         if(LoginType.JSON.equals(securityProperties.getBrowserProperties().getLoginType())) {
             httpServletResponse.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             httpServletResponse.setContentType("application/json;charset=UTF-8");
-            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(e));
+            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(e.getMessage())));
         }else{
             super.onAuthenticationFailure(httpServletRequest, httpServletResponse,e);
+            return;
         }
     }
 }
