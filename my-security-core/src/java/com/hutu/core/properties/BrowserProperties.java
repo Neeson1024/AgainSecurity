@@ -7,6 +7,16 @@ public class BrowserProperties {
 
     private LoginType loginType = LoginType.JSON;
 
+    private int remmeberMeSeconds = 3600;
+
+    public int getRemmeberMeSeconds() {
+        return remmeberMeSeconds;
+    }
+
+    public void setRemmeberMeSeconds(int remmeberMeSeconds) {
+        this.remmeberMeSeconds = remmeberMeSeconds;
+    }
+
     public LoginType getLoginType() {
         return loginType;
     }
