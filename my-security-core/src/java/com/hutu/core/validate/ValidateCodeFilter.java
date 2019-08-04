@@ -71,7 +71,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     private void validate(ServletWebRequest request)throws ValidateCodeException {
         String imageCode = request.getParameter("imageCode");
-        ImageCode attribute = (ImageCode)sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
+        ImageCode attribute = (ImageCode)sessionStrategy.getAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX );
 
         if(StringUtils.isBlank(imageCode)){
             throw new ValidateCodeException("验证码不能为空");
@@ -86,7 +86,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         }
 
 
-        sessionStrategy.removeAttribute(request,ValidateCodeController.SESSION_KEY);
+        sessionStrategy.removeAttribute(request,ValidateCodeProcessor.SESSION_KEY_PREFIX );
     }
 
     public void setHutuAuthenticationFailHandler(AuthenticationFailureHandler hutuAuthenticationFailHandler) {

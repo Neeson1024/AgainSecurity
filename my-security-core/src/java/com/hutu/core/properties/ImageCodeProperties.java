@@ -1,10 +1,15 @@
 package com.hutu.core.properties;
 
-public class ImageCodeProperties {
+import com.hutu.core.validate.code.sms.SmsCodeSender;
+
+public class ImageCodeProperties extends SmsCodeProperties {
     private int width = 67;
     private int height = 23;
-    private int lenght = 6;
-    private int expireIn = 60;
+
+    public ImageCodeProperties() {
+        setLenght(4);
+
+    }
 
     private String urls;
 
@@ -32,19 +37,5 @@ public class ImageCodeProperties {
         this.height = height;
     }
 
-    public int getLenght() {
-        return lenght;
-    }
 
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
-    }
-
-    public int getExpireIn() {
-        return expireIn;
-    }
-
-    public void setExpireIn(int expireIn) {
-        this.expireIn = expireIn;
-    }
 }

@@ -1,6 +1,8 @@
 package com.hutu.core.validate;
 
 import com.hutu.core.properties.SecurityProperties;
+import com.hutu.core.validate.code.sms.DefaultSmsCodeSender;
+import com.hutu.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +21,11 @@ public class ValidateCodeConfig {
         ImageValidateCodeGenerator imageValidateCodeGenerator = new ImageValidateCodeGenerator();
         imageValidateCodeGenerator.setSecurityProperties(securityProperties);
         return imageValidateCodeGenerator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public SmsCodeSender smsCodeSender(){
+        return new DefaultSmsCodeSender();
     }
 }
