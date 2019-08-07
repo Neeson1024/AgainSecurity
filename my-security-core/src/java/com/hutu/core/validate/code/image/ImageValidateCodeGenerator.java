@@ -1,6 +1,7 @@
-package com.hutu.core.validate;
+package com.hutu.core.validate.code.image;
 
 import com.hutu.core.properties.SecurityProperties;
+import com.hutu.core.validate.ValidateCodeGenerator;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 

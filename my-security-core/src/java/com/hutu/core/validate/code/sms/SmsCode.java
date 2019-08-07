@@ -1,4 +1,4 @@
-package com.hutu.core.validate;
+package com.hutu.core.validate.code.sms;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;

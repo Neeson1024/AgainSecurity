@@ -1,10 +1,8 @@
-package com.hutu.core.validate.image;
+package com.hutu.core.validate.code.image;
 
-import com.hutu.core.validate.ImageCode;
-import com.hutu.core.validate.impl.AbstractValidateCodeProcessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
-
+import com.hutu.core.validate.code.impl.*;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 

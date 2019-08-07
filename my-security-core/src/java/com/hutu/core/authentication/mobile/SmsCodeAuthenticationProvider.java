@@ -1,6 +1,5 @@
 package com.hutu.core.authentication.mobile;
 
-import com.hutu.core.validate.SmsCode;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;

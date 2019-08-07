@@ -1,5 +1,6 @@
-package com.hutu.core.validate;
+package com.hutu.core.validate.code.image;
 
+import com.hutu.core.validate.ValidateCode;
 import org.springframework.validation.annotation.Validated;
 
 import java.awt.image.BufferedImage;

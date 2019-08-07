@@ -1,6 +1,9 @@
-package com.hutu.core.validate;
+package com.hutu.core.validate.code.sms;
 
 import com.hutu.core.properties.SecurityProperties;
+import com.hutu.core.validate.ValidateCode;
+import com.hutu.core.validate.ValidateCodeException;
+import com.hutu.core.validate.ValidateCodeProcessor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -33,9 +36,11 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(securityProperties.getValidateCode().getSmsCodeProperties().getUrls(), ",");
-        for(String url : configUrls){
-            urls.add(url);
+        if(StringUtils.isNotBlank(securityProperties.getValidateCode().getSmsCodeProperties().getUrls())) {
+            String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(securityProperties.getValidateCode().getSmsCodeProperties().getUrls(), ",");
+            for (String url : configUrls) {
+                urls.add(url);
+            }
         }
         urls.add("/authentication/mobile");
     }
@@ -70,7 +75,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
     private void validate(ServletWebRequest request)throws ValidateCodeException {
         ValidateCode validateCode = (ValidateCode) sessionStrategy.getAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX + "SMS");
         String imageCode = request.getParameter("smsCode");
-        ImageCode attribute = (ImageCode)sessionStrategy.getAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX  + "SMS");
+        ValidateCode attribute = (ValidateCode)sessionStrategy.getAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX  + "SMS");
 
         if(StringUtils.isBlank(imageCode)){
             throw new ValidateCodeException("验证码不能为空");
