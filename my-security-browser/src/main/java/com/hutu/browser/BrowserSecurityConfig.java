@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -40,6 +41,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private ValidateCodeConfig validateCodeConfig;
+
+    @Autowired
+    private SpringSocialConfigurer hutuSpringSocialConfigurer;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -65,13 +69,15 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
         ////smsCodeFilter.setHutuAuthenticationFailHandler(hutuAuthenticationFailHandler);
         ////smsCodeFilter.setSecurityProperties(securityProperties);
         //smsCodeFilter.afterPropertiesSet();
-
+        super.configure(http);
         http
                 //.addFilterBefore(smsCodeFilter,UsernamePasswordAuthenticationFilter.class)
                 //.addFilterBefore(validateCodeFilter,UsernamePasswordAuthenticationFilter.class)
                 .apply(validateCodeConfig)
                 .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(hutuSpringSocialConfigurer)
                 .and()
                 .authorizeRequests()//对请求做一个授权
                 .antMatchers("/authentication/require",
