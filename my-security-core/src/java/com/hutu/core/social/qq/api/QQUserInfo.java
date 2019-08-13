@@ -1,5 +1,7 @@
 package com.hutu.core.social.qq.api;
 
+import java.io.UnsupportedEncodingException;
+
 public class QQUserInfo {
     //返回码
     private String ret;
@@ -115,11 +117,15 @@ public class QQUserInfo {
     }
 
     public String getNickname() {
-        return nickname;
+        return "aaaa";
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        try {
+            this.nickname = new String(nickname.getBytes("GBK"),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getFigureurl() {

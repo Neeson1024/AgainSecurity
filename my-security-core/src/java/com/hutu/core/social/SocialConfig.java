@@ -10,6 +10,7 @@ import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -38,8 +39,13 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Bean
     public SpringSocialConfigurer hutuSpringSocialConfigurer(){
         HutuSpringSocialConfigurer hutuSpringSocialConfigurer = new HutuSpringSocialConfigurer(securityProperties.getSocialProperties().getFilterProcessesUrl());
+        hutuSpringSocialConfigurer.signupUrl(securityProperties.getBrowserProperties().getSignUpUrl());
         return hutuSpringSocialConfigurer;
-        //http%3A%2F%2Fwww.pinzhi365.com%2Fauth%2Fqq&state=8eecf375-70ed-44b6-a8c0-901635bca97d
         //return new SpringSocialConfigurer();
+    }
+
+    @Bean
+    public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
+        return new ProviderSignInUtils(connectionFactoryLocator,getUsersConnectionRepository(connectionFactoryLocator));
     }
 }

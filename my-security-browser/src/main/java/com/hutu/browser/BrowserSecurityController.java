@@ -1,6 +1,7 @@
 package com.hutu.browser;
 
 import com.hutu.browser.suppot.SimpleResponse;
+import com.hutu.browser.suppot.SocialUserInfo;
 import com.hutu.core.properties.BrowserProperties;
 import com.hutu.core.properties.SecurityProperties;
 import org.apache.commons.lang3.StringUtils;
@@ -14,13 +15,18 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 public class BrowserSecurityController {
@@ -33,6 +39,9 @@ public class BrowserSecurityController {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
 
     /**
@@ -60,8 +69,17 @@ public class BrowserSecurityController {
     }
 
 
-    //@RequestMapping("/authentication/form")
-    //public String SigninMassage(){
-    //    return "登录成功";
-    //}
+    @GetMapping("/social/user")
+    public SocialUserInfo getSocialUserInfo(HttpServletRequest request){
+        SocialUserInfo socialUserInfo = new SocialUserInfo();
+        Connection<?> connectionFromSession = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        socialUserInfo.setHeadimg(connectionFromSession.getImageUrl());
+        socialUserInfo.setProviderId(connectionFromSession.getKey().getProviderId());
+        logger.error("displayName:" + connectionFromSession.getDisplayName());
+        socialUserInfo.setNickName("1");
+        socialUserInfo.setProviderUserId(connectionFromSession.getKey().getProviderUserId());
+        return socialUserInfo;
+    }
+
+
 }
